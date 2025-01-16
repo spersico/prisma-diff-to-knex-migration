@@ -1,0 +1,57 @@
+{
+  "name": "prisma-diff-to-knex-migration",
+  "version": "1.0.2",
+  "description": "Create Knex Migrations starters using Prisma SQL DDL generator",
+  "main": "dist/index.js",
+  "files": [
+    "/dist"
+  ],
+  "type": "module",
+  "author": "spersico",
+  "private": false,
+  "license": "MIT",
+  "bin": {
+    "prisma-diff-to-knex-migration": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "rm -rf dist && rm -rf tsconfig.build.tsbuildinfo && tsc --project tsconfig.build.json",
+    "test": "tsx src/test.ts"
+  },
+  "dependencies": {
+    "sql-query-identifier": "^2.8.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.18.0",
+    "@prisma/client": "^6.2.1",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.6",
+    "@types/pg": "^8.11.10",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "dotenv": "^16.4.7",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^15.14.0",
+    "knex": "^3.1.0",
+    "pg": "^8.13.1",
+    "prettier": "^3.4.2",
+    "prisma": "^6.2.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spersico/prisma-diff-to-knex-migration.git"
+  },
+  "bugs": {
+    "url": "https://github.com/spersico/prisma-diff-to-knex-migration/issues"
+  },
+  "keywords": [
+    "prisma",
+    "knex",
+    "migration",
+    "sql"
+  ]
+}
