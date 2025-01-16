@@ -1,40 +1,31 @@
 name: Publish Package to npmjs
-
 on:
   push:
-    branches:
-      - main
-
-permissions:
-  contents: write
-
+    branches: [main]
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v2
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '22'
-
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
-        run: npm install
-
-      - name: Build package
+        run: npm ci
+      - name: Build the thing
         run: npm run build
-
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
+          exit 0
       - name: Bump version and tag
         run: |
-          NEW_VERSION=$(npm version patch -m "Bump version to %s [skip ci]")
+          npm version patch -m "Bump version to %s [skip ci]"
+          NEW_VERSION=v$(cat package.json | jq -r .version)
           git tag -d $NEW_VERSION || true
           git push origin :refs/tags/$NEW_VERSION || true
           git tag $NEW_VERSION
@@ -42,8 +33,6 @@ jobs:
           git push
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish to npm
-        run: npm publish
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
