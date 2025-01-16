@@ -16,7 +16,8 @@ jobs:
       - run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          NEW_VERSION=$(npm version patch -m "Bump version to %s [skip ci]")
+          npm version patch -m "Bump version to %s [skip ci]"
+          NEW_VERSION=v$(cat package.json | jq -r .version)
           git tag $NEW_VERSION
           git push origin $NEW_VERSION
           git push
