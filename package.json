@@ -1,6 +1,6 @@
 {
   "name": "prisma-diff-to-knex-migration",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Create Knex Migrations starters using Prisma SQL DDL generator",
   "main": "dist/index.js",
   "files": [
