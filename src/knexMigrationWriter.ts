@@ -1,5 +1,4 @@
 import { writeFile } from 'node:fs/promises';
-import type { IdentifyResult } from 'sql-query-identifier/lib/defines.js';
 
 const knexMigrationTemplate = (style: 'mjs' | 'js' = 'mjs') => {
   const oldStyle = style === 'js';
@@ -31,22 +30,16 @@ ${
 };
 
 export function generateKnexMigrationContent(
-  parsedSQL: IdentifyResult[],
+  sql: string,
   knexMigrationStyle: 'mjs' | 'js' = 'mjs',
 ): string {
-  if (!parsedSQL.length) return knexMigrationTemplate(knexMigrationStyle);
-
-  const sentences = parsedSQL
-    .map(
-      (parsed) => `await knex.raw(\`
-${parsed.text.replace(/`/g, '\\`')}
-\`);`,
-    )
-    .join('\n\n  ');
+  if (!sql.length) return knexMigrationTemplate(knexMigrationStyle);
 
   return knexMigrationTemplate(knexMigrationStyle).replace(
     '// Add your up migration SQL here',
-    sentences,
+    `await knex.raw(\`
+    ${sql.replace(/`/g, '\\`')}
+    \`);`,
   );
 }
 
@@ -55,7 +48,7 @@ ${parsed.text.replace(/`/g, '\\`')}
  * @param {MigrationData} prismaMigration - The migration data
  */
 export async function knexMigrationWriter(
-  prismaGeneratedSql: IdentifyResult[],
+  prismaGeneratedSql: string,
   filePath: string,
 ): Promise<string> {
   const style =

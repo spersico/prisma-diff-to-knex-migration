@@ -3,7 +3,6 @@ import {
   knexMigrationWriter,
   generateKnexMigrationContent,
 } from './knexMigrationWriter.js';
-import type { IdentifyResult } from 'sql-query-identifier/lib/defines.js';
 
 /**
  * This command creates/updates a knex migration file based on the Prisma schema diff and a knex migration file path
@@ -12,12 +11,12 @@ import type { IdentifyResult } from 'sql-query-identifier/lib/defines.js';
 async function prismaDiffToKnexMigration(params: {
   output: 'console' | 'file';
   migrationPath: string;
-}): Promise<IdentifyResult[]> {
+}): Promise<string> {
   try {
     const sql = await buildSqlFromPrismaSchema();
 
     if (params.output === 'console') {
-      console.log(sql.map((s) => s.text).join('\n'));
+      console.log(sql);
     } else {
       await await knexMigrationWriter(sql, params.migrationPath);
     }
