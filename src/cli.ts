@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { prismaDiffToKnexMigration } from './index.js';
 
 /**
